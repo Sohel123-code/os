@@ -1,61 +1,67 @@
 #include <stdio.h>
 
-int main()
-{
-    int n,m,i,j,k;
-    int alloc[10][10], max[10][10], need[10][10];
-    int avail[10], finish[10]={0}, safe[10], work[10];
+int main() {
+    int n = 3, m = 3;
 
-    scanf("%d%d",&n,&m);
+    int alloc[3][3] = {
+        {0, 1, 0},
+        {2, 0, 0},
+        {3, 0, 2}
+    };
 
-    for(i=0;i<n;i++)
-        for(j=0;j<m;j++)
-            scanf("%d",&alloc[i][j]);
+    int max[3][3] = {
+        {7, 5, 3},
+        {3, 2, 2},
+        {9, 0, 2}
+    };
 
-    for(i=0;i<n;i++)
-        for(j=0;j<m;j++)
-            scanf("%d",&max[i][j]);
+    int avail[3] = {3, 3, 2};
 
-    for(i=0;i<m;i++)
-        scanf("%d",&avail[i]);
+    int need[3][3];
+    int finish[3] = {0};
+    int safeSeq[3];
 
-    for(i=0;i<n;i++)
-        for(j=0;j<m;j++)
-            need[i][j]=max[i][j]-alloc[i][j];
+    // Calculate Need
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+            need[i][j] = max[i][j] - alloc[i][j];
 
-    for(i=0;i<m;i++)
-        work[i]=avail[i];
+    int count = 0;
 
-    int count=0;
+    while(count < n) {
+        int found = 0;
 
-    while(count<n)
-    {
-        for(i=0;i<n;i++)
-        {
-            if(!finish[i])
-            {
-                for(j=0;j<m;j++)
-                    if(need[i][j]>work[j]) break;
+        for(int i=0;i<n;i++) {
+            if(finish[i] == 0) {
+                int flag = 1;
 
-                if(j==m)
-                {
-                    for(k=0;k<m;k++)
-                        work[k]+=alloc[i][k];
+                for(int j=0;j<m;j++) {
+                    if(need[i][j] > avail[j]) {
+                        flag = 0;
+                        break;
+                    }
+                }
 
-                    safe[count++]=i;
-                    finish[i]=1;
+                if(flag) {
+                    for(int j=0;j<m;j++)
+                        avail[j] += alloc[i][j];
+
+                    safeSeq[count++] = i;
+                    finish[i] = 1;
+                    found = 1;
                 }
             }
         }
+
+        if(found == 0) {
+            printf("System is NOT in safe state\n");
+            return 0;
+        }
     }
 
-    if(count==n)
-    {
-        for(i=0;i<n;i++)
-            printf("P%d ",safe[i]);
-    }
-    else
-        printf("Not Safe");
+    printf("System is in SAFE state\nSafe sequence: ");
+    for(int i=0;i<n;i++)
+        printf("P%d ", safeSeq[i]);
 
     return 0;
 }
