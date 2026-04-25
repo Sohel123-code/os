@@ -1,0 +1,13 @@
+CREATE TABLE Student (
+   RollNo NUMBER PRIMARY KEY,
+   Name VARCHAR2(30) NOT NULL,
+   Age NUMBER CHECK (Age >= 18),
+   Dept VARCHAR2(20) DEFAULT 'CSE'
+);
+
+INSERT INTO Student VALUES (101, 'Trilok', 20, 'CSE');
+INSERT INTO Student VALUES (102, 'Rahul', 21, 'ECE');
+
+ALTER TABLE Student ADD Marks NUMBER;
+
+DROP TABLE Student;

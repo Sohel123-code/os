@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION get_grade(m NUMBER)
+RETURN VARCHAR2
+IS
+BEGIN
+   IF m >= 75 THEN
+      RETURN 'DISTINCTION';
+   ELSE
+      RETURN 'PASS';
+   END IF;
+END;
+/
+
+SELECT Name, get_grade(Marks) FROM Student;

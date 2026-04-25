@@ -1,0 +1,12 @@
+BEGIN
+   INSERT INTO Student VALUES (103,'Ravi',20,'CSE',75);
+
+   SAVEPOINT s1;
+
+   INSERT INTO Student VALUES (104,'Kiran',21,'ECE',80);
+
+   ROLLBACK TO s1;
+
+   COMMIT;
+END;
+/
